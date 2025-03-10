@@ -30,10 +30,12 @@ app.get('/', (req, res) => {
     res.send("Welcome to the subscription tracker");
 });
 
-const PORT = process.env.PORT || 3000; // Use PORT from environment
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
+
+const PORT = process.env.PORT || 3000; // Use PORT from environment
+app.listen(PORT, async() => {
+  console.log(`Server is running on port ${PORT}`);
+  await  connectToDatabase();
+});
 
 export default app;
