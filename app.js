@@ -1,5 +1,5 @@
 import express from "express";
-import { PORT } from "./config/env.js";
+// import { PORT } from "./config/env.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import SubscriptionRouter from "./routes/Subscription.routes.js";
@@ -30,9 +30,10 @@ app.get('/', (req, res) => {
     res.send("Welcome to the subscription tracker");
 });
 
-app.listen(PORT, async()=>{
-    console.log(`Subscription-tracker API is running on the  http://localhost:${PORT}`);
-  await  connectToDatabase();
+const PORT = process.env.PORT || 3000; // Use PORT from environment
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
+
 
 export default app;
