@@ -11,7 +11,7 @@ export const createSubscription = async (req, res, next) => {
     });
 
     const { workflowRunId } = await workflowClient.trigger({
-      url: `${QSTASH_URL}/api/v1/workflows/subscription/reminder`,
+      url: `${QSTASH_URL}/v1/publish/api/v1/workflows/subscription/reminder`,
       body: {
         subscriptionId: subscription._id,
       },
