@@ -4,34 +4,26 @@ import { QSTASH_URL } from '../config/env.js';
 
 export const createSubscription = async (req, res, next) => {
   try {
-    console.log("🟢 Received request to create subscription:", req.body);
-    
-    if (!req.user || !req.user._id) {
-      throw new Error("❌ User ID is missing in request.");
-    }
-
     const subscription = await Subscription.create({
       ...req.body,
       user: req.user._id,
     });
 
-    console.log("✅ Subscription created:", subscription);
+    // const { workflowRunId } = await workflowClient.trigger({
+    //   url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+    //   body: {
+    //     subscriptionId: subscription.id,
+    //   },
+    //   headers: {
+    //     'content-type': 'application/json',
+    //   },
+    //   retries: 0,
+    // })
 
-    const { workflowRunId } = await workflowClient.trigger({
-      url: `${QSTASH_URL}/v1/publish/api/v1/workflows/subscription/reminder`,
-      body: { subscriptionId: subscription._id },
-      headers: { 'content-type': 'application/json' },
-      retries: 0,
-    });
-
-    console.log("✅ Workflow triggered:", workflowRunId);
-
-    res.status(201).json({ success: true, data: { subscription, workflowRunId } });
+    res.status(201).json({ success: true, data: { subscription} });
   } catch (e) {
-    console.error("❌ Error creating subscription:", e);
-    res.status(500).json({ success: false, error: e.message });
-  }
-};
+    next(e);
+  }}
 
 
 
